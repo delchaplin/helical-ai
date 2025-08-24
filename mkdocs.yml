@@ -1,0 +1,13 @@
+site_name: Helical AI Docs
+theme:
+  name: material
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - content.code.copy
+nav:
+  - Overview: docs/00-overview/README.md
+  - Math:
+    - Triangle Kernel: docs/10-math/math-spec.md
+  - Architecture:
+    - Helical Cell: docs/20-architecture/arch-spec.md

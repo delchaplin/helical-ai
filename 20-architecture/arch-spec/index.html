@@ -43,6 +43,8 @@
       
     
     
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
     <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -706,6 +708,33 @@
   <a href="#variants" class="md-nav__link">
     <span class="md-ellipsis">
       Variants
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#architecture-figure-mermaid" class="md-nav__link">
+    <span class="md-ellipsis">
+      Architecture Figure (Mermaid)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-preview-then-commit-deploy" class="md-nav__link">
+    <span class="md-ellipsis">
+      3) Preview, then commit &amp; deploy
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-preview-then-commit-deploy_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      3) Preview, then commit &amp; deploy
     </span>
   </a>
   
@@ -1452,6 +1481,33 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#architecture-figure-mermaid" class="md-nav__link">
+    <span class="md-ellipsis">
+      Architecture Figure (Mermaid)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-preview-then-commit-deploy" class="md-nav__link">
+    <span class="md-ellipsis">
+      3) Preview, then commit &amp; deploy
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-preview-then-commit-deploy_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      3) Preview, then commit &amp; deploy
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1474,22 +1530,55 @@
 <h1 id="helical-cell-architecture">Helical Cell Architecture<a class="headerlink" href="#helical-cell-architecture" title="Permanent link">&para;</a></h1>
 <h2 id="interfaces">Interfaces<a class="headerlink" href="#interfaces" title="Permanent link">&para;</a></h2>
 <ul>
-<li>Inputs: H_{t-1}, I_t</li>
-<li>Outputs: H_t, Aux (phase, stats)</li>
+<li>Inputs: <span class="arithmatex">\(H_{t-1}\)</span>, <span class="arithmatex">\(I_t\)</span></li>
+<li>Outputs: <span class="arithmatex">\(H_t\)</span>, Aux (phase, stats)</li>
 </ul>
 <h2 id="blocks">Blocks<a class="headerlink" href="#blocks" title="Permanent link">&para;</a></h2>
 <ul>
-<li>Triangle kernel</li>
-<li>Rotation or phase module</li>
-<li>RMSNorm with residual pathway</li>
+<li>Triangle kernel <span class="arithmatex">\([b_t, a_t, c_t]\)</span></li>
+<li>Rotation/Phase module <span class="arithmatex">\(R_{\Delta\phi_t}\)</span></li>
+<li>RMSNorm + residual pathway</li>
 <li>Optional attention phase-gate</li>
 </ul>
 <h2 id="variants">Variants<a class="headerlink" href="#variants" title="Permanent link">&para;</a></h2>
 <ul>
-<li>Orthogonal (Cayley or Householder)</li>
+<li>Orthogonal (Cayley/Householder)</li>
 <li>Power-mean fusion (learn p)</li>
 <li>KV ring buffer keyed by phase</li>
 </ul>
+<h2 id="architecture-figure-mermaid">Architecture Figure (Mermaid)<a class="headerlink" href="#architecture-figure-mermaid" title="Permanent link">&para;</a></h2>
+<p>```mermaid
+flowchart TD
+  I[Input <span class="arithmatex">\(I_t\)</span>] --&gt; Wy[Linear <span class="arithmatex">\(W_y\)</span>]
+  Hprev[Prev state <span class="arithmatex">\(H_{t-1}\)</span>] --&gt; Wx[Linear <span class="arithmatex">\(W_x\)</span>]
+  Wy --&gt; Y[Y_t]
+  Wx --&gt; X[X_t]</p>
+<p>X --&gt;|with Y| b[b_t = (Y - X)/2]
+  X --&gt;|with Y| a[a_t = GM_log(X,Y)]
+  X --&gt;|with Y| c[c_t = (Y + X)/2]</p>
+<p>b --&gt; fuse[Concat [b,a,c] → Linear]
+  a --&gt; fuse
+  c --&gt; fuse</p>
+<p>Hprev --&gt; rot[Rotation <span class="arithmatex">\(R_{\Delta\phi_t}\)</span>]
+  dphi[Δφ_t (qprime or learned)] --&gt; rot
+  rot --&gt; sum[U(h_rot) + z + 0.1·h_rot]
+  fuse --&gt; sum
+  sum --&gt; norm[RMSNorm → tanh]
+  norm --&gt; Ht[Output <span class="arithmatex">\(H_t\)</span>]</p>
+<p>flowchart LR
+  prior{{Δφ_prior from {5,7,11,13}×2π/24}}
+  stats[[stats(b,a,c)]]
+  mlp[MLP → tanh × 15°]
+  plus[Δφ_t = prior + offset]
+  prior --&gt; plus
+  stats --&gt; mlp --&gt; offset[Δφ_offset]
+  offset --&gt; plus</p>
+<h2 id="3-preview-then-commit-deploy">3) Preview, then commit &amp; deploy<a class="headerlink" href="#3-preview-then-commit-deploy" title="Permanent link">&para;</a></h2>
+<p>```bash
+mkdocs serve</p>
+<h2 id="3-preview-then-commit-deploy_1">3) Preview, then commit &amp; deploy<a class="headerlink" href="#3-preview-then-commit-deploy_1" title="Permanent link">&para;</a></h2>
+<p>```bash
+mkdocs serve</p>
 
 
 
@@ -1546,6 +1635,10 @@
       <script src="../../assets/javascripts/bundle.92b07e13.min.js"></script>
       
         <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+      
+        <script src="../../assets/mermaid-init.js"></script>
       
     
   </body>

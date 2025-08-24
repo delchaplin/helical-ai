@@ -3,3 +3,6 @@ __pycache__/
 site/
 *.pyc
 .DS_Store
+
+experiments/runs/
+*.pt

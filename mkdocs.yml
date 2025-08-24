@@ -5,6 +5,7 @@ theme:
     - navigation.tabs
     - navigation.sections
     - content.code.copy
+
 nav:
   - Home: index.md
   - Overview: 00-overview/README.md
@@ -12,3 +13,15 @@ nav:
       - Triangle Kernel: 10-math/math-spec.md
   - Architecture:
       - Helical Cell: 20-architecture/arch-spec.md
+
+markdown_extensions:
+  - admonition
+  - pymdownx.highlight
+  - pymdownx.superfences
+  - toc:
+      permalink: true
+  - pymdownx.arithmatex:
+      generic: true
+
+extra_javascript:
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js

@@ -6,8 +6,9 @@ theme:
     - navigation.sections
     - content.code.copy
 nav:
-  - Overview: docs/00-overview/README.md
+  - Home: index.md
+  - Overview: 00-overview/README.md
   - Math:
-    - Triangle Kernel: docs/10-math/math-spec.md
+      - Triangle Kernel: 10-math/math-spec.md
   - Architecture:
-    - Helical Cell: docs/20-architecture/arch-spec.md
+      - Helical Cell: 20-architecture/arch-spec.md

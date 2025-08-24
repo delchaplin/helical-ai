@@ -36,6 +36,7 @@ nav:
       - Defensive Publication: 80-ip/defensive-publication.md
   - Ops:
       - How We Work: 90-ops/how-we-work.md
+      - Milestones: 90-ops/milestones.md
 
 markdown_extensions:
   - admonition

@@ -38,3 +38,13 @@ flowchart TD
   fuse --> sum
   sum --> norm[RMSNorm → tanh]
   norm --> Ht[Output (H_t)]
+
+flowchart LR
+  prior{{Δφ_prior from {5,7,11,13} × 2π/24}}
+  stats[[stats(b, a, c)]]
+  mlp[MLP → tanh × 15°]
+  plus[Δφ_t = prior + offset]
+
+  prior --> plus
+  stats --> mlp --> offset[Δφ_offset]
+  offset --> plus

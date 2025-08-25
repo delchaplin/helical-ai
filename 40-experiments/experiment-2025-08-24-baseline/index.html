@@ -9,10 +9,6 @@
       
       
       
-        <link rel="prev" href="../../10-math/phase-rotation/">
-      
-      
-        <link rel="next" href="../api-helicalcell/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -20,7 +16,7 @@
     
     
       
-        <title>Helical Cell - Helical AI Docs</title>
+        <title>Experiment 2025-08-24 — baseline - Helical AI Docs</title>
       
     
     
@@ -64,7 +60,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#helical-cell-architecture" class="md-skip">
+        <a href="#experiment-2025-08-24-baseline" class="md-skip">
           Skip to content
         </a>
       
@@ -98,7 +94,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Helical Cell
+              Experiment 2025-08-24 — baseline
             
           </span>
         </div>
@@ -239,13 +235,11 @@
   
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="./" class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../../20-architecture/arch-spec/" class="md-tabs__link">
           
   
   
@@ -285,7 +279,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../40-experiments/ablation-plan/" class="md-tabs__link">
+        <a href="../ablation-plan/" class="md-tabs__link">
           
   
   
@@ -586,31 +580,26 @@
       
   
   
-    
   
   
-  
     
     
     
     
-      
-        
-        
       
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
         
           
-          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
             
   
   
@@ -623,7 +612,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
             Architecture
@@ -634,32 +623,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    Helical Cell
-    
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../20-architecture/arch-spec/" class="md-nav__link">
         
   
   
@@ -670,131 +637,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#1-interfaces" class="md-nav__link">
-    <span class="md-ellipsis">
-      1) Interfaces
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#2-core-math-triangle-of-means-rotation" class="md-nav__link">
-    <span class="md-ellipsis">
-      2) Core math (triangle-of-means + rotation)
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="2) Core math (triangle-of-means + rotation)">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#21-projectionreception-maps" class="md-nav__link">
-    <span class="md-ellipsis">
-      2.1 Projection/Reception maps
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#22-triangle-of-means-channels" class="md-nav__link">
-    <span class="md-ellipsis">
-      2.2 Triangle-of-means channels
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#23-phase-rotation" class="md-nav__link">
-    <span class="md-ellipsis">
-      2.3 Phase / rotation
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#24-state-update" class="md-nav__link">
-    <span class="md-ellipsis">
-      2.4 State update
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#3-blocks-implementation-detail" class="md-nav__link">
-    <span class="md-ellipsis">
-      3) Blocks (implementation detail)
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#4-variants" class="md-nav__link">
-    <span class="md-ellipsis">
-      4) Variants
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#5-training-hooks" class="md-nav__link">
-    <span class="md-ellipsis">
-      5) Training hooks
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#6-shapes-complexity" class="md-nav__link">
-    <span class="md-ellipsis">
-      6) Shapes &amp; Complexity
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#7-reference-config-starter" class="md-nav__link">
-    <span class="md-ellipsis">
-      7) Reference config (starter)
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -807,7 +649,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../api-helicalcell/" class="md-nav__link">
+      <a href="../../20-architecture/api-helicalcell/" class="md-nav__link">
         
   
   
@@ -976,7 +818,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../40-experiments/ablation-plan/" class="md-nav__link">
+      <a href="../ablation-plan/" class="md-nav__link">
         
   
   
@@ -1042,7 +884,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../40-experiments/experiment-2025-08-24-toy/" class="md-nav__link">
+      <a href="../experiment-2025-08-24-toy/" class="md-nav__link">
         
   
   
@@ -1065,7 +907,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../40-experiments/experiment-2025-08-24-copy-lag-T64/" class="md-nav__link">
+      <a href="../experiment-2025-08-24-copy-lag-T64/" class="md-nav__link">
         
   
   
@@ -1088,7 +930,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../40-experiments/experiment-2025-08-24-reverse-T48/" class="md-nav__link">
+      <a href="../experiment-2025-08-24-reverse-T48/" class="md-nav__link">
         
   
   
@@ -1603,105 +1445,45 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1-interfaces" class="md-nav__link">
+  <a href="#goal" class="md-nav__link">
     <span class="md-ellipsis">
-      1) Interfaces
+      Goal
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#2-core-math-triangle-of-means-rotation" class="md-nav__link">
+  <a href="#config" class="md-nav__link">
     <span class="md-ellipsis">
-      2) Core math (triangle-of-means + rotation)
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="2) Core math (triangle-of-means + rotation)">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#21-projectionreception-maps" class="md-nav__link">
-    <span class="md-ellipsis">
-      2.1 Projection/Reception maps
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#22-triangle-of-means-channels" class="md-nav__link">
-    <span class="md-ellipsis">
-      2.2 Triangle-of-means channels
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#23-phase-rotation" class="md-nav__link">
-    <span class="md-ellipsis">
-      2.3 Phase / rotation
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#24-state-update" class="md-nav__link">
-    <span class="md-ellipsis">
-      2.4 State update
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#3-blocks-implementation-detail" class="md-nav__link">
-    <span class="md-ellipsis">
-      3) Blocks (implementation detail)
+      Config
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#4-variants" class="md-nav__link">
+  <a href="#results" class="md-nav__link">
     <span class="md-ellipsis">
-      4) Variants
+      Results
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#5-training-hooks" class="md-nav__link">
+  <a href="#observations" class="md-nav__link">
     <span class="md-ellipsis">
-      5) Training hooks
+      Observations
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#6-shapes-complexity" class="md-nav__link">
+  <a href="#next" class="md-nav__link">
     <span class="md-ellipsis">
-      6) Shapes &amp; Complexity
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#7-reference-config-starter" class="md-nav__link">
-    <span class="md-ellipsis">
-      7) Reference config (starter)
+      Next
     </span>
   </a>
   
@@ -1726,105 +1508,17 @@
   
 
 
-<h1 id="helical-cell-architecture">Helical Cell Architecture<a class="headerlink" href="#helical-cell-architecture" title="Permanent link">&para;</a></h1>
-<p>This document defines the <strong>HelicalCell</strong>: a recurrent update built on a triangle‑of‑means kernel and a phase/rotation module. It explains inputs/outputs, internal blocks, variants, and training hooks so the implementation is unambiguous.</p>
-<hr />
-<h2 id="1-interfaces">1) Interfaces<a class="headerlink" href="#1-interfaces" title="Permanent link">&para;</a></h2>
-<p><strong>Inputs</strong>
-- <code>H_{t-1}</code> (tensor): previous hidden state, shape <code>[B, D]</code>
-- <code>I_t</code> (tensor): current input, shape <code>[B, D_in]</code></p>
-<p><strong>Outputs</strong>
-- <code>H_t</code> (tensor): next hidden state, shape <code>[B, D]</code>
-- <code>aux</code> (dict): <code>{phi, dphi, stats}</code> for logging/analysis</p>
-<hr />
-<h2 id="2-core-math-triangle-of-means-rotation">2) Core math (triangle-of-means + rotation)<a class="headerlink" href="#2-core-math-triangle-of-means-rotation" title="Permanent link">&para;</a></h2>
-<h3 id="21-projectionreception-maps">2.1 Projection/Reception maps<a class="headerlink" href="#21-projectionreception-maps" title="Permanent link">&para;</a></h3>
-<ul>
-<li><span class="arithmatex">\( X_t = W_x H_{t-1} + b_x \)</span></li>
-<li><span class="arithmatex">\( Y_t = W_y I_t + b_y \)</span></li>
-</ul>
-<h3 id="22-triangle-of-means-channels">2.2 Triangle-of-means channels<a class="headerlink" href="#22-triangle-of-means-channels" title="Permanent link">&para;</a></h3>
-<ul>
-<li>Base / error: <span class="arithmatex">\( b_t = \tfrac{1}{2}(Y_t - X_t) \)</span></li>
-<li>Neutral / geometric mean (log-domain for stability):<br />
-<span class="arithmatex">\( a_t = \exp\left[0.5\left(\ln(|X_t|+\epsilon)+\ln(|Y_t|+\epsilon)\right)\right] \)</span></li>
-<li>Carrier / arithmetic mean: <span class="arithmatex">\( c_t = \tfrac{1}{2}(Y_t + X_t) \)</span></li>
-</ul>
-<p>Concatenate (or affine combine) into a proposal:
-- <span class="arithmatex">\( z_t = \mathrm{Affine}([b_t, a_t, c_t]) \)</span></p>
-<h3 id="23-phase-rotation">2.3 Phase / rotation<a class="headerlink" href="#23-phase-rotation" title="Permanent link">&para;</a></h3>
-<ul>
-<li>Phase step (quasi-prime wheel): <span class="arithmatex">\(\Delta\phi \in \{5,7,11,13\}\cdot 2\pi/24\)</span></li>
-<li>(Optional) learned offset: <span class="arithmatex">\( \delta\phi = \mathrm{MLP}(\mathrm{stats}(b_t,a_t,c_t)) \in [-\pi/12,\pi/12] \)</span></li>
-<li>Effective step: <span class="arithmatex">\( \Delta\phi_t = \Delta\phi + \delta\phi \)</span></li>
-</ul>
-<p>Apply rotation <code>R(Δφ_t)</code> to a chosen carrier (e.g., a block‑Givens on <code>z_t</code> or on a subset of <code>H_{t-1}</code>) to obtain a rotated state candidate <span class="arithmatex">\( \tilde{h}_t \)</span>.</p>
-<h3 id="24-state-update">2.4 State update<a class="headerlink" href="#24-state-update" title="Permanent link">&para;</a></h3>
-<ul>
-<li>Normalize + residual:
-  <span class="arithmatex">\( h_t = \mathrm{Act}\big(\mathrm{RMSNorm}(z_t + U\tilde{h}_t) + \alpha \tilde{h}_t\big) \)</span></li>
-<li>Output:
-  <span class="arithmatex">\( H_t = h_t \)</span></li>
-</ul>
-<hr />
-<h2 id="3-blocks-implementation-detail">3) Blocks (implementation detail)<a class="headerlink" href="#3-blocks-implementation-detail" title="Permanent link">&para;</a></h2>
-<ul>
-<li><strong>Linear maps</strong>: <code>W_x: D→D</code>, <code>W_y: D_in→D</code>, bias terms <code>b_x, b_y</code>.</li>
-<li><strong>Triangle kernel</strong>: compute <code>b_t, a_t, c_t</code> (use <code>log1p</code>/<code>softplus</code> if you prefer).</li>
-<li><strong>Rotation</strong>: vectorized <strong>Givens</strong> blocks or <strong>Cayley</strong> transform for orthogonality.</li>
-<li><strong>Norms/Act</strong>: <code>RMSNorm</code> + <code>SiLU</code>/<code>GELU</code>; residual include small carrier skip (e.g., <code>α=0.1</code>).</li>
-<li><strong>Stats for phase MLP</strong>: mean L1 of each channel; optionally channelwise norms.</li>
-</ul>
-<hr />
-<h2 id="4-variants">4) Variants<a class="headerlink" href="#4-variants" title="Permanent link">&para;</a></h2>
-<ul>
-<li><strong>Phase mode</strong></li>
-<li><code>qprime</code>: fixed 24‑slot wheel <span class="arithmatex">\([5,7,11,13]\)</span>.</li>
-<li><code>learned</code>: add small learned offset <span class="arithmatex">\(\delta\phi\)</span> with L2 prior to the wheel.</li>
-<li><strong>Rotation type</strong></li>
-<li><code>givens</code>: cheap 2×2 block rotations (fast, stable).</li>
-<li><code>cayley</code>: skew‑sym A → <span class="arithmatex">\(R=(I-A)(I+A)^{-1}\)</span> (orthogonal).</li>
-<li><strong>Fusion</strong></li>
-<li>Triangle AM/GM as above, or <strong>power‑mean</strong> with learnable <span class="arithmatex">\(p\in[-1,1]\)</span>.</li>
-<li><strong>Memory</strong></li>
-<li>Optional <strong>phase‑keyed ring buffer</strong>: write <code>(k=[cosφ,sinφ], v=h)</code>; read nearest‑phase neighbors (tiny KV without full attention).</li>
-<li><strong>Attention hybrid</strong></li>
-<li><strong>Phase‑gated attention</strong>: scale attention logits with <span class="arithmatex">\(g(\phi_t)=\alpha\cos(\phi_t-\phi_{pos})+\beta\)</span>.</li>
-<li><strong>Late fusion</strong> head: <code>logits = α·Attn(h) + (1−α)·Proj(h_helix)</code>.</li>
-</ul>
-<hr />
-<h2 id="5-training-hooks">5) Training hooks<a class="headerlink" href="#5-training-hooks" title="Permanent link">&para;</a></h2>
-<ul>
-<li><strong>Loss</strong>: <code>total = task_loss + λ·coherence_loss(h_{t-1}, h_t, b_t)</code></li>
-<li>Example gate: <code>gate = sigmoid(k*(τ - ||b_t||_1))</code> (regularize only when error is low).</li>
-<li>Compute coherence every <code>k</code> steps to save compute (e.g., <code>k=4</code>).</li>
-<li><strong>Ablations</strong></li>
-<li>Δφ: qprime vs sinusoid vs learned</li>
-<li>Rotation: Givens vs Cayley</li>
-<li>Fusion: AM/GM vs power‑mean</li>
-<li>λ: {0, .01, .05}</li>
-<li>Attention: off vs phase‑gated vs late‑fusion</li>
-<li><strong>Metrics</strong></li>
-<li>Horizon length (copy/reverse/parity), phase‑slip rate, PPL/accuracy, robustness under noise/dropouts.</li>
-</ul>
-<hr />
-<h2 id="6-shapes-complexity">6) Shapes &amp; Complexity<a class="headerlink" href="#6-shapes-complexity" title="Permanent link">&para;</a></h2>
-<ul>
-<li>Hidden <code>D</code>, input <code>D_in</code>; concat triangle makes <code>3D</code> before projection.</li>
-<li>Per‑step cost ~ O(D²) from linear maps; rotation is O(D) for block‑Givens.</li>
-<li>Memory constant in <code>T</code>; optional ring buffer is O(K) with tiny K (e.g., 64).</li>
-</ul>
-<hr />
-<h2 id="7-reference-config-starter">7) Reference config (starter)<a class="headerlink" href="#7-reference-config-starter" title="Permanent link">&para;</a></h2>
-<p>```yaml
-helical_cell:
-  dim: 512
-  phase_mode: qprime        # or learned
-  rotation: givens          # or cayley
-  coherence_lambda: 0.01
-  residual_alpha: 0.1
-  activation: gelu
-  eps: 1e-6</p>
+<h1 id="experiment-2025-08-24-baseline">Experiment 2025-08-24 — baseline<a class="headerlink" href="#experiment-2025-08-24-baseline" title="Permanent link">&para;</a></h1>
+<h2 id="goal">Goal<a class="headerlink" href="#goal" title="Permanent link">&para;</a></h2>
+<p>Smoke test docs and repo, confirm site builds.</p>
+<h2 id="config">Config<a class="headerlink" href="#config" title="Permanent link">&para;</a></h2>
+<p>n/a</p>
+<h2 id="results">Results<a class="headerlink" href="#results" title="Permanent link">&para;</a></h2>
+<p>Site builds locally and deploys to gh-pages.</p>
+<h2 id="observations">Observations<a class="headerlink" href="#observations" title="Permanent link">&para;</a></h2>
+<p>Nav works. LaTeX renders.</p>
+<h2 id="next">Next<a class="headerlink" href="#next" title="Permanent link">&para;</a></h2>
+<p>Add helical cell and run first synthetic task.</p>
 
 
 

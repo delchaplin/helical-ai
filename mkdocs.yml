@@ -22,7 +22,10 @@ nav:
       - Bench Setup: 30-implementation/bench-setup.md
   - Experiments:
       - Plan: 40-experiments/ablation-plan.md
-      - Logs: 40-experiments/index.md
+      - Logs:
+          - 2025-08-24 — Toy: 40-experiments/experiment-2025-08-24-toy.md
+          - 2025-08-24 — Copy (lag T=64): 40-experiments/experiment-2025-08-24-copy-lag-T64.md
+          - 2025-08-24 — Reverse (T=48): 40-experiments/experiment-2025-08-24-reverse-T48.md
   - Datasets:
       - Dataset Cards: 50-datasets/index.md
   - Results:
@@ -37,14 +40,6 @@ nav:
   - Ops:
       - How We Work: 90-ops/how-we-work.md
       - Milestones: 90-ops/milestones.md
-  - Experiments:
-    - Plan: docs/40-experiments/ablation-plan.md
-    - Logs:
-      - 2025-08-24 — Toy: docs/40-experiments/experiment-2025-08-24-toy.md
-      - 2025-08-24 — Copy (lag T=64): docs/40-experiments/experiment-2025-08-24-copy-lag-T64.md
-      - 2025-08-24 — Reverse (T=48): docs/40-experiments/experiment-2025-08-24-reverse-T48.md
-
-markdown_extensions:
   - admonition
   - pymdownx.highlight
   - pymdownx.superfences

@@ -111,7 +111,8 @@ Hrot = rotate_pairs(H_prev, dphi)
 
 H_t = GELU(LayerNorm(z + α * Hrot))
 
-## 7.  Mermaid Overview
+### 7. Mermaid Overview
+```mermaid
 graph TD
   A[Input token] -->|Embed| B[Embedding E_t]
   B --> C[Linear W_y]
@@ -126,6 +127,7 @@ graph TD
   I --> J[logits]
   Hprev -. optional .-> K((coherence loss))
   H -. compare .-> K
+
 
 ---
 

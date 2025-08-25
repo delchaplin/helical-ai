@@ -1,70 +1,27 @@
 site_name: Helical AI Docs
-repo_url: https://github.com/delchaplin/helical-ai
-
 theme:
   name: material
   features:
     - navigation.tabs
     - navigation.sections
     - content.code.copy
-    - content.tabs.link
-
 nav:
   - Home: index.md
   - Overview: 00-overview/README.md
   - Math:
       - Triangle Kernel: 10-math/math-spec.md
-      - Phase/Rotation: 10-math/phase-rotation.md
   - Architecture:
       - Helical Cell: 20-architecture/arch-spec.md
-      - API: 20-architecture/api-helicalcell.md
-  - Implementation:
-      - Engineering Notes: 30-implementation/engineering-notes.md
-      - Bench Setup: 30-implementation/bench-setup.md
   - Experiments:
-      - Plan: 40-experiments/ablation-plan.md
-      - Logs:
-          - 2025-08-24 — Toy: 40-experiments/experiment-2025-08-24-toy.md
-          - 2025-08-24 — Copy (lag T=64): 40-experiments/experiment-2025-08-24-copy-lag-T64.md
-          - 2025-08-24 — Reverse (T=48): 40-experiments/experiment-2025-08-24-reverse-T48.md
-  - Datasets:
-      - Dataset Cards: 50-datasets/index.md
-  - Results:
-      - Result Tables: 60-results/results.md
-      - Figures: 60-results/figures.md
-  - Compliance:
-      - Risk & Safety: 70-compliance/risk-safety.md
-  - IP & Publication:
-      - IP Log: 80-ip/ip-log.md
-      - Patent Prep: 80-ip/patent-prep.md
-      - Defensive Publication: 80-ip/defensive-publication.md
-  - Ops:
-      - How We Work: 90-ops/how-we-work.md
-      - Milestones: 90-ops/milestones.md
-
+      - Index: 40-experiments/index.md
+      - Baseline (2025-08-24): 40-experiments/experiment-2025-08-24-baseline.md
 markdown_extensions:
   - admonition
   - pymdownx.highlight
-  - pymdownx.superfences:
-      custom_fences:
-        - name: mermaid
-          class: mermaid
-          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.superfences
   - toc:
       permalink: true
   - pymdownx.arithmatex:
       generic: true
-
 extra_javascript:
   - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
-  - https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js
-  - assets/mermaid-init.js
-
-plugins:
-  - search
-  - mkdocstrings:
-      handlers:
-        python:
-          options:
-            docstring_style: google
-            show_source: false

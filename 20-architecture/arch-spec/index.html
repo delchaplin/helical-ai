@@ -518,36 +518,54 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#interfaces" class="md-nav__link">
+  <a href="#1-interfaces" class="md-nav__link">
     <span class="md-ellipsis">
-      Interfaces
+      1. Interfaces
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#blocks" class="md-nav__link">
+  <a href="#2-notation" class="md-nav__link">
     <span class="md-ellipsis">
-      Blocks
+      2. Notation
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#variants" class="md-nav__link">
+  <a href="#3-phase-rotation-on-pairs" class="md-nav__link">
     <span class="md-ellipsis">
-      Variants
+      3. Phase rotation on pairs
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#architecture-figure-mermaid" class="md-nav__link">
+  <a href="#4-state-update" class="md-nav__link">
     <span class="md-ellipsis">
-      Architecture Figure (Mermaid)
+      4. State update
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-optional-coherence-regularizer" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Optional Coherence Regularizer
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-pseudocode" class="md-nav__link">
+    <span class="md-ellipsis">
+      6. Pseudocode
     </span>
   </a>
   
@@ -692,36 +710,54 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#interfaces" class="md-nav__link">
+  <a href="#1-interfaces" class="md-nav__link">
     <span class="md-ellipsis">
-      Interfaces
+      1. Interfaces
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#blocks" class="md-nav__link">
+  <a href="#2-notation" class="md-nav__link">
     <span class="md-ellipsis">
-      Blocks
+      2. Notation
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#variants" class="md-nav__link">
+  <a href="#3-phase-rotation-on-pairs" class="md-nav__link">
     <span class="md-ellipsis">
-      Variants
+      3. Phase rotation on pairs
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#architecture-figure-mermaid" class="md-nav__link">
+  <a href="#4-state-update" class="md-nav__link">
     <span class="md-ellipsis">
-      Architecture Figure (Mermaid)
+      4. State update
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-optional-coherence-regularizer" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Optional Coherence Regularizer
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-pseudocode" class="md-nav__link">
+    <span class="md-ellipsis">
+      6. Pseudocode
     </span>
   </a>
   
@@ -744,51 +780,136 @@
 
 
 <h1 id="helical-cell-architecture">Helical Cell Architecture<a class="headerlink" href="#helical-cell-architecture" title="Permanent link">&para;</a></h1>
-<h2 id="interfaces">Interfaces<a class="headerlink" href="#interfaces" title="Permanent link">&para;</a></h2>
+<p>A compact recurrent update that combines a <strong>triangle-of-means kernel</strong> with a <strong>phase rotation</strong> applied to channel pairs. This spec matches the training code in <code>helical_poc.py</code>.</p>
+<hr />
+<h2 id="1-interfaces">1. Interfaces<a class="headerlink" href="#1-interfaces" title="Permanent link">&para;</a></h2>
+<p><strong>Inputs</strong>
+- <code>H_{t-1}</code> — previous hidden state <code>[B, D]</code>
+- <code>E_t</code> — embedded token at step t <code>[B, D_in]</code></p>
+<p><strong>Outputs</strong>
+- <code>H_t</code> — next hidden state <code>[B, D]</code>
+- Classifier head: <code>logits_t = W_o H_t</code></p>
+<p><strong>Constraint:</strong><br />
+<code>hidden_dim (D)</code> must be even (pairs for 2×2 rotations).</p>
+<hr />
+<h2 id="2-notation">2. Notation<a class="headerlink" href="#2-notation" title="Permanent link">&para;</a></h2>
 <ul>
-<li>Inputs: H_{t-1}, I_t</li>
-<li>Outputs: H_t, Aux (phase, stats)</li>
+<li>Projection: <code>X_t = W_x H_{t-1}</code></li>
+<li>Reception: <code>Y_t = W_y E_t</code></li>
 </ul>
-<h2 id="blocks">Blocks<a class="headerlink" href="#blocks" title="Permanent link">&para;</a></h2>
+<p>Triangle channels:
+[
+b_t = \tfrac{1}{2}(Y_t - X_t)
+]
+[
+a_t = \exp!\bigg(\tfrac{1}{2}\big(\ln(|X_t|+\epsilon) + \ln(|Y_t|+\epsilon)\big)\bigg)
+]
+[
+c_t = \tfrac{1}{2}(Y_t + X_t)
+]</p>
+<p>Concatenate and fuse:
+[
+z_t = \text{GELU}( W_\text{mix}[b_t; a_t; c_t])
+]</p>
+<hr />
+<h2 id="3-phase-rotation-on-pairs">3. Phase rotation on pairs<a class="headerlink" href="#3-phase-rotation-on-pairs" title="Permanent link">&para;</a></h2>
+<p>For each adjacent channel pair <span class="arithmatex">\((h_{2k}, h_{2k+1})\)</span>, apply:</p>
+<div class="arithmatex">\[
+\begin{bmatrix}
+h'_{2k} \\
+h'_{2k+1}
+\end{bmatrix}
+=
+\begin{bmatrix}
+\cos \Delta\phi_t &amp; -\sin \Delta\phi_t \\
+\sin \Delta\phi_t &amp; \cos \Delta\phi_t
+\end{bmatrix}
+\begin{bmatrix}
+h_{2k} \\
+h_{2k+1}
+\end{bmatrix}
+\]</div>
+<p>where <span class="arithmatex">\(\Delta\phi_t \in \{5,7,11,13\}\cdot 2\pi/24\)</span> (quasi-prime wheel).</p>
+<hr />
+<h2 id="4-state-update">4. State update<a class="headerlink" href="#4-state-update" title="Permanent link">&para;</a></h2>
+<p>Final update:
+[
+H_t = \text{GELU}!\Big(\text{LayerNorm}(z_t + \alpha \cdot H^{rot}_{t-1})\Big)
+]</p>
+<p>with small residual <span class="arithmatex">\(\alpha \approx 0.1\)</span>.</p>
+<p>Classifier:
+[
+\text{logits}_t = W_o H_t
+]</p>
+<hr />
+<h2 id="5-optional-coherence-regularizer">5. Optional Coherence Regularizer<a class="headerlink" href="#5-optional-coherence-regularizer" title="Permanent link">&para;</a></h2>
+<p>Encourages directional similarity between successive hidden states:</p>
+<div class="arithmatex">\[
+\mathcal{L}_\text{coh} = \lambda \cdot \big(1 - \cos \angle(H_{t-1}, H_t)\big)
+\]</div>
+<p>Enabled by default, disabled with <code>--no_coh</code>.</p>
+<hr />
+<h2 id="6-pseudocode">6. Pseudocode<a class="headerlink" href="#6-pseudocode" title="Permanent link">&para;</a></h2>
+<p>```python</p>
+<h1 id="shapes-h_prev-bd-e_t-bd_in-d-even">Shapes: H_prev [B,D], E_t [B,D_in]; D even<a class="headerlink" href="#shapes-h_prev-bd-e_t-bd_in-d-even" title="Permanent link">&para;</a></h1>
+<p>X = W_x(H_prev)
+Y = W_y(E_t)</p>
+<p>b = 0.5 * (Y - X)
+a = torch.exp(0.5 * (log(|X|+eps) + log(|Y|+eps)))
+c = 0.5 * (Y + X)</p>
+<p>z = GELU(W_mix([b, a, c]))</p>
+<p>dphi = wheel[t % len(wheel)] * (2π/24)
+Hrot = rotate_pairs(H_prev, dphi)</p>
+<p>H_t = GELU(LayerNorm(z + α * Hrot))</p>
+<p>graph TD
+  A[Input token] --&gt;|Embed| B[Embedding E_t]
+  B --&gt; C[Linear W_y]
+  Hprev[H_{t-1}] --&gt; D[Linear W_x]
+  D --&gt; E[Triangle channels b,a,c]
+  C --&gt; E
+  E --&gt; F[W_mix + GELU]
+  Hprev --&gt; G[Rotate pairs R(Δφ_t)]
+  F --&gt; H[LayerNorm + GELU + α·Hrot]
+  G --&gt; H
+  H --&gt; I[Linear head W_o]
+  I --&gt; J[logits]
+  Hprev -. optional .-&gt; K((coherence loss))
+  H -. compare .-&gt; K</p>
+<hr />
+<h2 id="8-shapes-complexity">8. Shapes &amp; Complexity<a class="headerlink" href="#8-shapes-complexity" title="Permanent link">&para;</a></h2>
 <ul>
-<li>Triangle kernel [b_t, a_t, c_t]</li>
-<li>Rotation/Phase module R_{Δφ_t}</li>
-<li>RMSNorm + residual pathway</li>
-<li>Optional attention phase-gate</li>
+<li>Hidden dimension <span class="arithmatex">\(D\)</span> must be <strong>even</strong> (pairwise rotations).  </li>
+<li>Triangle concat is <span class="arithmatex">\(3D \rightarrow D\)</span> after fusion.  </li>
+<li>Per-step computational cost:  </li>
+<li>Projections: <span class="arithmatex">\(O(D^2)\)</span>  </li>
+<li>Rotations: <span class="arithmatex">\(O(D)\)</span></li>
 </ul>
-<h2 id="variants">Variants<a class="headerlink" href="#variants" title="Permanent link">&para;</a></h2>
+<hr />
+<h2 id="9-reference-config-current-defaults">9. Reference Config (current defaults)<a class="headerlink" href="#9-reference-config-current-defaults" title="Permanent link">&para;</a></h2>
+<p>```yaml
+helical_cell:
+  dim: 128
+  phase_wheel: [5, 7, 11, 13]   # × (2π/24)
+  residual_alpha: 0.1
+  norm: layernorm
+  activation: gelu
+  coherence_lambda: 0.05        # set 0 or use --no_coh
+  eps: 1e-6</p>
+<hr />
+<h2 id="10-gotchas">10. Gotchas<a class="headerlink" href="#10-gotchas" title="Permanent link">&para;</a></h2>
 <ul>
-<li>Orthogonal (Cayley/Householder)</li>
-<li>Power-mean fusion (learn p)</li>
-<li>KV ring buffer keyed by phase</li>
+<li>Compute the <strong>geometric mean in log-domain</strong> to avoid NaNs.  </li>
+<li>Keep rotations <strong>vectorized</strong>: interleave pairs directly instead of fragile reshapes.  </li>
+<li>If training jitters or diverges, start with coherence <strong>off</strong> (<code>--no_coh</code>), then turn it back on once stable.</li>
 </ul>
-<h2 id="architecture-figure-mermaid">Architecture Figure (Mermaid)<a class="headerlink" href="#architecture-figure-mermaid" title="Permanent link">&para;</a></h2>
-<p>```mermaid
-flowchart TD
-  I[Input (I_t)] --&gt; Wy[Linear (W_y)]
-  Hprev[Prev state (H_{t-1})] --&gt; Wx[Linear (W_x)]
-  Wy --&gt; Y[Y_t]
-  Wx --&gt; X[X_t]</p>
-<p>X --&gt;|with Y| b[b_t = (Y - X)/2]
-  X --&gt;|with Y| a[a_t = GM_log(X, Y)]
-  X --&gt;|with Y| c[c_t = (Y + X)/2]</p>
-<p>b --&gt; fuse[Concat [b, a, c] → Linear]
-  a --&gt; fuse
-  c --&gt; fuse</p>
-<p>Hprev --&gt; rot[Rotation R_{Δφ_t}]
-  dphi[Δφ_t (qprime or learned)] --&gt; rot
-  rot --&gt; sum[U(h_rot) + z + 0.1·h_rot]
-  fuse --&gt; sum
-  sum --&gt; norm[RMSNorm → tanh]
-  norm --&gt; Ht[Output (H_t)]</p>
-<p>flowchart LR
-  prior{{Δφ_prior from {5,7,11,13} × 2π/24}}
-  stats[[stats(b, a, c)]]
-  mlp[MLP → tanh × 15°]
-  plus[Δφ_t = prior + offset]</p>
-<p>prior --&gt; plus
-  stats --&gt; mlp --&gt; offset[Δφ_offset]
-  offset --&gt; plus</p>
+<hr />
+<h2 id="11-validation-checklist">11. Validation Checklist<a class="headerlink" href="#11-validation-checklist" title="Permanent link">&para;</a></h2>
+<ul>
+<li>✅ Hidden dimension <span class="arithmatex">\(D\)</span> is even; otherwise fail fast.  </li>
+<li>✅ <span class="arithmatex">\(\Delta\phi_t\)</span> cycles through [5,7,11,13] × <span class="arithmatex">\(2\pi/24\)</span>.  </li>
+<li>✅ Loss runs without shape or device errors on short copy-tasks.  </li>
+<li>✅ Docs render correctly: LaTeX equations via MathJax and Mermaid diagrams via superfences.</li>
+</ul>
 
 
 

@@ -131,8 +131,7 @@ graph TD
   I --> J[logits]
   Hprev -. optional .-> K((coherence loss))
   H -. compare .-> K
-
-
+```
 
 
 ---

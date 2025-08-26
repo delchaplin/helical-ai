@@ -120,12 +120,12 @@ Below is a high-level flow diagram rendered using Mermaid:
 graph TD;
   A[Input token] -->|Embed| B[Embedding E_t]
   B --> C[Linear W_y]
-  Hprev[H_{t-1}] --> D[Linear W_x]
+  Hprev[H_prev] --> D[Linear W_x]
   D --> E[Triangle channels b,a,c]
   C --> E
   E --> F[W_mix + GELU]
-  Hprev --> G[Rotate pairs R(Δφ_t)]
-  F --> H[LayerNorm + GELU + α·Hrot]
+  Hprev --> G[Rotate pairs R delta_phi_t]
+  F --> H[LayerNorm + GELU + alpha·H_rot]
   G --> H
   H --> I[Linear head W_o]
   I --> J[logits]

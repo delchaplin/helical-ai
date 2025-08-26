@@ -117,7 +117,7 @@ H_t = GELU(LayerNorm(z + α * Hrot))
 Below is a high-level flow diagram rendered using Mermaid:
 
 ```mermaid
-graph TD
+graph TD;
   A[Input token] -->|Embed| B[Embedding E_t]
   B --> C[Linear W_y]
   Hprev[H_{t-1}] --> D[Linear W_x]
@@ -129,8 +129,8 @@ graph TD
   G --> H
   H --> I[Linear head W_o]
   I --> J[logits]
-  Hprev -. optional .-> K((coherence loss))
-  H -. compare .-> K
+  Hprev -- optional --> K((coherence loss))
+  H -- compare --> K
 ```
 
 

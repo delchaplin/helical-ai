@@ -113,7 +113,7 @@ H_t = GELU(LayerNorm(z + α * Hrot))
 
 
 
-### 7. Mermaid Overview
+## 7. Mermaid Overview
 Below is a high-level flow diagram rendered using Mermaid:
 
 ```mermaid

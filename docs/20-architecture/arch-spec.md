@@ -50,7 +50,7 @@ $$
 
 For each adjacent channel pair $(h_{2k}, h_{2k+1})$, apply:
 
-$$
+```math
 \begin{bmatrix}
 h'_{2k} \\
 h'_{2k+1}
@@ -64,9 +64,9 @@ h'_{2k+1}
 h_{2k} \\
 h_{2k+1}
 \end{bmatrix}
-$$
+```
 
-where $\Delta\phi_t \in \{5,7,11,13\}\cdot \frac{2\pi}{24}$ (quasi-prime wheel).
+where $\Delta\phi_t \in \\{5,7,11,13\\} \cdot \frac{2\pi}{24}$ (quasi-prime wheel).
 ---
 
 ## 4. State update

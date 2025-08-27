@@ -75,8 +75,7 @@ where \(\Delta\phi_t \in \{5,7,11,13\}\cdot \tfrac{2\pi}{24}\) (quasi-prime whee
 Final update:
 
 $$
-H_t = \mathrm{GELU}\!\Big(\mathrm{LayerNorm}(z_t + \alpha \cdot H^{\mathrm{rot}}_{t-1})\Big),
-\qquad \alpha \approx 0.1
+H_t = \mathrm{GELU}\!\Big(\mathrm{LayerNorm}(z_t + \alpha \cdot H^{\mathrm{rot}}_{t-1})\Big), \quad \alpha \approx 0.1
 $$
 
 Classifier:
@@ -137,7 +136,6 @@ graph TD;
   Hprev -- optional --> K((coherence loss))
   H -- compare --> K
 ```
-
 
 ---
 

@@ -101,7 +101,7 @@ Enabled by default, disabled with `--no_coh`.
 ## 6. Pseudocode
 
 ```python
-# Shapes: H_prev [B, D], E_t [B, D_in]; D even
+### Shapes: H_prev [B, D], E_t [B, D_in]; D even
 X = W_x(H_prev)
 Y = W_y(E_t)
 

@@ -761,33 +761,33 @@
 <hr />
 <h2 id="1-interfaces">1. Interfaces<a class="headerlink" href="#1-interfaces" title="Permanent link">&para;</a></h2>
 <p><strong>Inputs</strong>
-- <code>H_{t-1}</code> — previous hidden state <code>[B, D]</code>
-- <code>E_t</code> — embedded token at step t <code>[B, D_in]</code></p>
+- <span class="arithmatex">\(H_{t-1}\)</span> — previous hidden state <span class="arithmatex">\([B, D]\)</span>
+- <span class="arithmatex">\(E_t\)</span> — embedded token at step <span class="arithmatex">\(t\)</span> <span class="arithmatex">\([B, D_{\text{in}}]\)</span></p>
 <p><strong>Outputs</strong>
-- <code>H_t</code> — next hidden state <code>[B, D]</code>
-- Classifier head: <code>logits_t = W_o H_t</code></p>
+- <span class="arithmatex">\(H_t\)</span> — next hidden state <span class="arithmatex">\([B, D]\)</span>
+- Classifier head: <span class="arithmatex">\(\text{logits}_t = W_o H_t\)</span></p>
 <p><strong>Constraint:</strong><br />
 <code>hidden_dim (D)</code> must be even (pairs for 2×2 rotations).</p>
 <hr />
 <h2 id="2-notation">2. Notation<a class="headerlink" href="#2-notation" title="Permanent link">&para;</a></h2>
 <ul>
-<li>Projection: <code>X_t = W_x H_{t-1}</code></li>
-<li>Reception: <code>Y_t = W_y E_t</code></li>
+<li>Projection: <span class="arithmatex">\(X_t = W_x H_{t-1}\)</span>  </li>
+<li>Reception: <span class="arithmatex">\(Y_t = W_y E_t\)</span></li>
 </ul>
-<p>Triangle channels:
-[
+<p>Triangle channels:</p>
+<div class="arithmatex">\[
 b_t = \tfrac{1}{2}(Y_t - X_t)
-]
-[
-a_t = \exp!\bigg(\tfrac{1}{2}\big(\ln(|X_t|+\epsilon) + \ln(|Y_t|+\epsilon)\big)\bigg)
-]
-[
+\]</div>
+<div class="arithmatex">\[
+a_t = \exp\!\Big(\tfrac{1}{2}\big[\ln(|X_t|+\epsilon) + \ln(|Y_t|+\epsilon)\big]\Big)
+\]</div>
+<div class="arithmatex">\[
 c_t = \tfrac{1}{2}(Y_t + X_t)
-]</p>
-<p>Concatenate and fuse:
-[
-z_t = \text{GELU}( W_\text{mix}[b_t; a_t; c_t])
-]</p>
+\]</div>
+<p>Concatenate and fuse:</p>
+<div class="arithmatex">\[
+z_t = \mathrm{GELU}\!\big(W_{\text{mix}}[\,b_t;\,a_t;\,c_t]\big)
+\]</div>
 <hr />
 <h2 id="3-phase-rotation-on-pairs">3. Phase rotation on pairs<a class="headerlink" href="#3-phase-rotation-on-pairs" title="Permanent link">&para;</a></h2>
 <p>For each adjacent channel pair <span class="arithmatex">\((h_{2k}, h_{2k+1})\)</span>, apply:</p>
@@ -806,18 +806,17 @@ h_{2k} \\
 h_{2k+1}
 \end{bmatrix}
 \]</div>
-<p>where <span class="arithmatex">\(\Delta\phi_t \in \{5,7,11,13\}\cdot 2\pi/24\)</span> (quasi-prime wheel).</p>
+<p>where <span class="arithmatex">\(\Delta\phi_t \in \{5,7,11,13\}\cdot \tfrac{2\pi}{24}\)</span> (quasi-prime wheel).</p>
 <hr />
 <h2 id="4-state-update">4. State update<a class="headerlink" href="#4-state-update" title="Permanent link">&para;</a></h2>
-<p>Final update:
-[
-H_t = \text{GELU}!\Big(\text{LayerNorm}(z_t + \alpha \cdot H^{rot}_{t-1})\Big)
-]</p>
-<p>with small residual <span class="arithmatex">\(\alpha \approx 0.1\)</span>.</p>
-<p>Classifier:
-[
+<p>Final update:</p>
+<div class="arithmatex">\[
+H_t = \mathrm{GELU}\!\Big(\mathrm{LayerNorm}(z_t + \alpha \cdot H^{\mathrm{rot}}_{t-1})\Big), \quad \alpha \approx 0.1
+\]</div>
+<p>Classifier:</p>
+<div class="arithmatex">\[
 \text{logits}_t = W_o H_t
-]</p>
+\]</div>
 <hr />
 <h2 id="5-optional-coherence-regularizer">5. Optional Coherence Regularizer<a class="headerlink" href="#5-optional-coherence-regularizer" title="Permanent link">&para;</a></h2>
 <p>Encourages directional similarity between successive hidden states:</p>
@@ -828,43 +827,31 @@ H_t = \text{GELU}!\Big(\text{LayerNorm}(z_t + \alpha \cdot H^{rot}_{t-1})\Big)
 <hr />
 <h2 id="6-pseudocode">6. Pseudocode<a class="headerlink" href="#6-pseudocode" title="Permanent link">&para;</a></h2>
 <p>```python</p>
-<h1 id="shapes-h_prev-bd-e_t-bd_in-d-even">Shapes: H_prev [B,D], E_t [B,D_in]; D even<a class="headerlink" href="#shapes-h_prev-bd-e_t-bd_in-d-even" title="Permanent link">&para;</a></h1>
+<h1 id="shapes-h_prev-b-d-e_t-b-d_in-d-even">Shapes: H_prev [B, D], E_t [B, D_in]; D even<a class="headerlink" href="#shapes-h_prev-b-d-e_t-b-d_in-d-even" title="Permanent link">&para;</a></h1>
 <p>X = W_x(H_prev)
 Y = W_y(E_t)</p>
 <p>b = 0.5 * (Y - X)
-a = torch.exp(0.5 * (log(|X|+eps) + log(|Y|+eps)))
+a = torch.exp(0.5 * (torch.log(torch.abs(X)+eps) + torch.log(torch.abs(Y)+eps)))
 c = 0.5 * (Y + X)</p>
-<p>z = GELU(W_mix([b, a, c]))</p>
-<p>dphi = wheel[t % len(wheel)] * (2π/24)
+<p>z = GELU(W_mix(torch.cat([b, a, c], dim=-1)))</p>
+<p>dphi = wheel[t % len(wheel)] * (2*math.pi/24)
 Hrot = rotate_pairs(H_prev, dphi)</p>
-<p>H_t = GELU(LayerNorm(z + α * Hrot))</p>
-<p>graph TD
+<p>H_t = GELU(LayerNorm(z + 0.1 * Hrot))</p>
+<p>graph TD;
   A[Input token] --&gt;|Embed| B[Embedding E_t]
   B --&gt; C[Linear W_y]
-  Hprev[H_{t-1}] --&gt; D[Linear W_x]
+  Hprev[H_prev] --&gt; D[Linear W_x]
   D --&gt; E[Triangle channels b,a,c]
   C --&gt; E
   E --&gt; F[W_mix + GELU]
-  Hprev --&gt; G[Rotate pairs R(Δφ_t)]
-  F --&gt; H[LayerNorm + GELU + α·Hrot]
+  Hprev --&gt; G[Rotate pairs R delta_phi_t]
+  F --&gt; H[LayerNorm + GELU + alpha·H_rot]
   G --&gt; H
   H --&gt; I[Linear head W_o]
   I --&gt; J[logits]
-  Hprev -. optional .-&gt; K((coherence loss))
-  H -. compare .-&gt; K</p>
-<hr />
-<h2 id="8-shapes-complexity">8. Shapes &amp; Complexity<a class="headerlink" href="#8-shapes-complexity" title="Permanent link">&para;</a></h2>
-<ul>
-<li>Hidden dimension <span class="arithmatex">\(D\)</span> must be <strong>even</strong> (pairwise rotations).  </li>
-<li>Triangle concat is <span class="arithmatex">\(3D \rightarrow D\)</span> after fusion.  </li>
-<li>Per-step computational cost:  </li>
-<li>Projections: <span class="arithmatex">\(O(D^2)\)</span>  </li>
-<li>Rotations: <span class="arithmatex">\(O(D)\)</span></li>
-</ul>
-<hr />
-<h2 id="9-reference-config-current-defaults">9. Reference Config (current defaults)<a class="headerlink" href="#9-reference-config-current-defaults" title="Permanent link">&para;</a></h2>
-<p>```yaml
-helical_cell:
+  Hprev -- optional --&gt; K((coherence loss))
+  H -- compare --&gt; K</p>
+<p>helical_cell:
   dim: 128
   phase_wheel: [5, 7, 11, 13]   # × (2π/24)
   residual_alpha: 0.1
@@ -872,21 +859,6 @@ helical_cell:
   activation: gelu
   coherence_lambda: 0.05        # set 0 or use --no_coh
   eps: 1e-6</p>
-<hr />
-<h2 id="10-gotchas">10. Gotchas<a class="headerlink" href="#10-gotchas" title="Permanent link">&para;</a></h2>
-<ul>
-<li>Compute the <strong>geometric mean in log-domain</strong> to avoid NaNs.  </li>
-<li>Keep rotations <strong>vectorized</strong>: interleave pairs directly instead of fragile reshapes.  </li>
-<li>If training jitters or diverges, start with coherence <strong>off</strong> (<code>--no_coh</code>), then turn it back on once stable.</li>
-</ul>
-<hr />
-<h2 id="11-validation-checklist">11. Validation Checklist<a class="headerlink" href="#11-validation-checklist" title="Permanent link">&para;</a></h2>
-<ul>
-<li>✅ Hidden dimension <span class="arithmatex">\(D\)</span> is even; otherwise fail fast.  </li>
-<li>✅ <span class="arithmatex">\(\Delta\phi_t\)</span> cycles through [5,7,11,13] × <span class="arithmatex">\(2\pi/24\)</span>.  </li>
-<li>✅ Loss runs without shape or device errors on short copy-tasks.  </li>
-<li>✅ Docs render correctly: LaTeX equations via MathJax and Mermaid diagrams via superfences.</li>
-</ul>
 
 
 

@@ -48,7 +48,7 @@ $$
 
 ## 3. Phase rotation on pairs
 
-For each adjacent channel pair \((h_{2k}, h_{2k+1})\), apply:
+For each adjacent channel pair $(h_{2k}, h_{2k+1})$, apply:
 
 $$
 \begin{bmatrix}
@@ -66,8 +66,7 @@ h_{2k+1}
 \end{bmatrix}
 $$
 
-where \(\Delta\phi_t \in \{5,7,11,13\}\cdot \tfrac{2\pi}{24}\) (quasi-prime wheel).
-
+where $\Delta\phi_t \in \{5,7,11,13\}\cdot \frac{2\pi}{24}$ (quasi-prime wheel).
 ---
 
 ## 4. State update
@@ -99,9 +98,10 @@ Enabled by default, disabled with `--no_coh`.
 ---
 
 ## 6. Pseudocode
+### Shapes: H_prev [B, D], E_t [B, D_in]; D even
 
 ```python
-### Shapes: H_prev [B, D], E_t [B, D_in]; D even
+
 X = W_x(H_prev)
 Y = W_y(E_t)
 

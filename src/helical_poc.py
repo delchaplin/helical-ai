@@ -7,6 +7,7 @@ from typing import Tuple
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+import csv, os
 
 # ----------------------------
 # Helpers
@@ -242,5 +243,14 @@ def main():
         va_loss, va_acc = run_epoch(model, val,   hp, device, criterion, optimizer=None, use_coh=False)
         print(f"Epoch {epoch:02d} | train_loss={tr_loss:.4f} acc={tr_acc:.3f} | val_loss={va_loss:.4f} acc={va_acc:.3f}")
 
+        # --- CSV logging ---
+        row = [args.model, hp.seq_len, epoch, float(tr_loss), float(tr_acc), float(va_loss), float(va_acc)]
+        csv_path = os.getenv("RUN_CSV", "results_copy.csv")
+        new = not os.path.exists(csv_path)
+        with open(csv_path, "a", newline="") as f:
+            w = csv.writer(f)
+            if new:
+                w.writerow(["model","seq_len","epoch","train_loss","train_acc","val_loss","val_acc"])
+            w.writerow(row)
 if __name__ == "__main__":
     main()

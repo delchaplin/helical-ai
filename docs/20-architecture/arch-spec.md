@@ -7,12 +7,12 @@ A compact recurrent update that combines a **triangle-of-means kernel** with a *
 ## 1. Interfaces
 
 **Inputs**
-- `H_{t-1}` — previous hidden state `[B, D]`
-- `E_t` — embedded token at step t `[B, D_in]`
+- \(H_{t-1}\) — previous hidden state \([B, D]\)
+- \(E_t\) — embedded token at step \(t\) \([B, D_{\text{in}}]\)
 
 **Outputs**
-- `H_t` — next hidden state `[B, D]`
-- Classifier head: `logits_t = W_o H_t`
+- \(H_t\) — next hidden state \([B, D]\)
+- Classifier head: \(\text{logits}_t = W_o H_t\)
 
 **Constraint:**  
 `hidden_dim (D)` must be even (pairs for 2×2 rotations).
@@ -21,24 +21,28 @@ A compact recurrent update that combines a **triangle-of-means kernel** with a *
 
 ## 2. Notation
 
-- Projection: `X_t = W_x H_{t-1}`
-- Reception: `Y_t = W_y E_t`
+- Projection: \(X_t = W_x H_{t-1}\)  
+- Reception: \(Y_t = W_y E_t\)
 
 Triangle channels:
-\[
+
+$$
 b_t = \tfrac{1}{2}(Y_t - X_t)
-\]
-\[
-a_t = \exp\!\bigg(\tfrac{1}{2}\big(\ln(|X_t|+\epsilon) + \ln(|Y_t|+\epsilon)\big)\bigg)
-\]
-\[
+$$
+
+$$
+a_t = \exp\!\Big(\tfrac{1}{2}\big[\ln(|X_t|+\epsilon) + \ln(|Y_t|+\epsilon)\big]\Big)
+$$
+
+$$
 c_t = \tfrac{1}{2}(Y_t + X_t)
-\]
+$$
 
 Concatenate and fuse:
-\[
-z_t = \text{GELU}( W_\text{mix}[b_t; a_t; c_t])
-\]
+
+$$
+z_t = \mathrm{GELU}\!\big(W_{\text{mix}}[\,b_t;\,a_t;\,c_t]\big)
+$$
 
 ---
 
@@ -46,7 +50,7 @@ z_t = \text{GELU}( W_\text{mix}[b_t; a_t; c_t])
 
 For each adjacent channel pair \((h_{2k}, h_{2k+1})\), apply:
 
-\[
+$$
 \begin{bmatrix}
 h'_{2k} \\
 h'_{2k+1}
@@ -60,25 +64,26 @@ h'_{2k+1}
 h_{2k} \\
 h_{2k+1}
 \end{bmatrix}
-\]
+$$
 
-where \(\Delta\phi_t \in \{5,7,11,13\}\cdot 2\pi/24\) (quasi-prime wheel).
+where \(\Delta\phi_t \in \{5,7,11,13\}\cdot \tfrac{2\pi}{24}\) (quasi-prime wheel).
 
 ---
 
 ## 4. State update
 
 Final update:
-\[
-H_t = \text{GELU}\!\Big(\text{LayerNorm}(z_t + \alpha \cdot H^{rot}_{t-1})\Big)
-\]
 
-with small residual \(\alpha \approx 0.1\).
+$$
+H_t = \mathrm{GELU}\!\Big(\mathrm{LayerNorm}(z_t + \alpha \cdot H^{\mathrm{rot}}_{t-1})\Big),
+\qquad \alpha \approx 0.1
+$$
 
 Classifier:
-\[
+
+$$
 \text{logits}_t = W_o H_t
-\]
+$$
 
 ---
 
@@ -86,32 +91,32 @@ Classifier:
 
 Encourages directional similarity between successive hidden states:
 
-\[
+$$
 \mathcal{L}_\text{coh} = \lambda \cdot \big(1 - \cos \angle(H_{t-1}, H_t)\big)
-\]
+$$
 
 Enabled by default, disabled with `--no_coh`.
 
 ---
 
 ## 6. Pseudocode
+
 ```python
-### Shapes: H_prev [B,D], E_t [B,D_in]; D even
+# Shapes: H_prev [B, D], E_t [B, D_in]; D even
 X = W_x(H_prev)
 Y = W_y(E_t)
 
 b = 0.5 * (Y - X)
-a = torch.exp(0.5 * (log(|X|+eps) + log(|Y|+eps)))
+a = torch.exp(0.5 * (torch.log(torch.abs(X)+eps) + torch.log(torch.abs(Y)+eps)))
 c = 0.5 * (Y + X)
 
-z = GELU(W_mix([b, a, c]))
+z = GELU(W_mix(torch.cat([b, a, c], dim=-1)))
 
-dphi = wheel[t % len(wheel)] * (2π/24)
+dphi = wheel[t % len(wheel)] * (2*math.pi/24)
 Hrot = rotate_pairs(H_prev, dphi)
 
-H_t = GELU(LayerNorm(z + α * Hrot))
+H_t = GELU(LayerNorm(z + 0.1 * Hrot))
 ```
-
 
 ## 7. Mermaid Overview
 Below is a high-level flow diagram rendered using Mermaid:

@@ -7,7 +7,8 @@ from typing import Tuple
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-import csv, os
+import csv
+import os
 
 # ----------------------------
 # Helpers

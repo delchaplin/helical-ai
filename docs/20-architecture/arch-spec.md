@@ -115,6 +115,7 @@ dphi = wheel[t % len(wheel)] * (2 * math.pi / 24)
 Hrot = rotate_pairs(H_prev, dphi)
 
 H_t = GELU(LayerNorm(z + Hrot))
+```
 
 ## 7. Mermaid Overview
 Below is a high-level flow diagram rendered using Mermaid:

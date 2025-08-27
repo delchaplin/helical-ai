@@ -10,8 +10,7 @@
       try { window.mermaid.init(); } catch (e) { /* ignore */ }
     }
   }
-
-  // MkDocs Material emits `document$` on page changes (client-side routing)
+  // Re-run after in-page navigation (Material)
   if (window.document$ && typeof window.document$.subscribe === 'function') {
     window.document$.subscribe(init);
   } else {

@@ -18,11 +18,17 @@ nav:
 markdown_extensions:
   - admonition
   - pymdownx.highlight
-  - pymdownx.superfences
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          # produce <div class="mermaid">...</div> so mermaid.js can process it
+          format: !!python/name:pymdownx.superfences.fence_div_format
   - toc:
       permalink: true
   - pymdownx.arithmatex:
       generic: true
+
 extra_javascript:
   - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
   - https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js

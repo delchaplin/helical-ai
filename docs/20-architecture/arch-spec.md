@@ -1,18 +1,16 @@
 # Helical Cell Architecture
-
 A compact recurrent update that combines a **triangle-of-means kernel** with a **phase rotation** applied to channel pairs. This spec matches the training code in `helical_poc.py`.
 
 ---
 
 ## 1. Interfaces
-
 **Inputs**
-- \(H_{t-1}\) — previous hidden state \([B, D]\)
-- \(E_t\) — embedded token at step \(t\) \([B, D_{\text{in}}]\)
+- $H_{t-1}$ — previous hidden state $[B, D]$
+- $E_t$ — embedded token at step $t$ $[B, D_{\text{in}}]$
 
 **Outputs**
-- \(H_t\) — next hidden state \([B, D]\)
-- Classifier head: \(\text{logits}_t = W_o H_t\)
+- $H_t$ — next hidden state $[B, D]$
+- Classifier head: $\text{logits}_t = W_o H_t$
 
 **Constraint:**  
 `hidden_dim (D)` must be even (pairs for 2×2 rotations).
@@ -20,34 +18,32 @@ A compact recurrent update that combines a **triangle-of-means kernel** with a *
 ---
 
 ## 2. Notation
-
-- Projection: \(X_t = W_x H_{t-1}\)  
-- Reception: \(Y_t = W_y E_t\)
+- Projection: $X_t = W_x H_{t-1}$  
+- Reception: $Y_t = W_y E_t$
 
 Triangle channels:
 
-$$
-b_t = \tfrac{1}{2}(Y_t - X_t)
-$$
+```math
+b_t = \frac{1}{2}(Y_t - X_t)
+```
 
-$$
-a_t = \exp\!\Big(\tfrac{1}{2}\big[\ln(|X_t|+\epsilon) + \ln(|Y_t|+\epsilon)\big]\Big)
-$$
+```math
+a_t = \exp\!\Big(\frac{1}{2}\big[\ln(|X_t|+\epsilon) + \ln(|Y_t|+\epsilon)\big]\Big)
+```
 
-$$
-c_t = \tfrac{1}{2}(Y_t + X_t)
-$$
+```math
+c_t = \frac{1}{2}(Y_t + X_t)
+```
 
 Concatenate and fuse:
 
-$$
+```math
 z_t = \mathrm{GELU}\!\big(W_{\text{mix}}[\,b_t;\,a_t;\,c_t]\big)
-$$
+```
 
 ---
 
 ## 3. Phase rotation on pairs
-
 For each adjacent channel pair $(h_{2k}, h_{2k+1})$, apply:
 
 ```math
@@ -67,21 +63,21 @@ h_{2k+1}
 ```
 
 where $\Delta\phi_t \in \\{5,7,11,13\\} \cdot \frac{2\pi}{24}$ (quasi-prime wheel).
+
 ---
 
 ## 4. State update
-
 Final update:
 
-$$
+```math
 H_t = \mathrm{GELU}\!\Big(\mathrm{LayerNorm}(z_t + \alpha \cdot H^{\mathrm{rot}}_{t-1})\Big), \quad \alpha \approx 0.1
-$$
+```
 
 Classifier:
 
-$$
+```math
 \text{logits}_t = W_o H_t
-$$
+```
 
 ---
 
@@ -109,6 +105,9 @@ dphi = wheel[t % len(wheel)] * (2 * math.pi / 24)
 Hrot = rotate_pairs(H_prev, dphi)
 H_t = GELU(LayerNorm(z + Hrot))
 ```
+
+---
+
 ## 7. Mermaid Overview
 Below is a high-level flow diagram rendered using Mermaid:
 
@@ -132,12 +131,11 @@ graph TD;
 ---
 
 ## 8. Shapes & Complexity
-
-- Hidden dimension \(D\) must be **even** (pairwise rotations).  
-- Triangle concat is \(3D \rightarrow D\) after fusion.  
+- Hidden dimension $D$ must be **even** (pairwise rotations).  
+- Triangle concat is $3D \rightarrow D$ after fusion.  
 - Per-step computational cost:  
-  - Projections: \(O(D^2)\)  
-  - Rotations: \(O(D)\)
+  - Projections: $O(D^2)$  
+  - Rotations: $O(D)$
 
 ---
 
@@ -156,7 +154,6 @@ helical_cell:
 ---
 
 ## 10. Gotchas
-
 - Compute the **geometric mean in log-domain** to avoid NaNs.  
 - Keep rotations **vectorized**: interleave pairs directly instead of fragile reshapes.  
 - If training jitters or diverges, start with coherence **off** (`--no_coh`), then turn it back on once stable.
@@ -164,9 +161,7 @@ helical_cell:
 ---
 
 ## 11. Validation Checklist
-
-- ✅ Hidden dimension \(D\) is even; otherwise fail fast.  
-- ✅ \(\Delta\phi_t\) cycles through [5,7,11,13] × \(2\pi/24\).  
+- ✅ Hidden dimension $D$ is even; otherwise fail fast.  
+- ✅ $\Delta\phi_t$ cycles through [5,7,11,13] × $2\pi/24$.  
 - ✅ Loss runs without shape or device errors on short copy-tasks.  
 - ✅ Docs render correctly: LaTeX equations via MathJax and Mermaid diagrams via superfences.
-

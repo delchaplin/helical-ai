@@ -86,12 +86,11 @@ $$
 ---
 
 ## 5. Optional Coherence Regularizer
-
 Encourages directional similarity between successive hidden states:
 
-$$
+```math
 \mathcal{L}_\text{coh} = \lambda \cdot \big(1 - \cos \angle(H_{t-1}, H_t)\big)
-$$
+```
 
 Enabled by default, disabled with `--no_coh`.
 

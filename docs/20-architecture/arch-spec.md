@@ -95,8 +95,8 @@ Enabled by default, disabled with `--no_coh`.
 ---
 
 ## 6. Pseudocode
-
-# Shapes: H_prev [B,D], E_t [B,D_in]; D even
+```python
+### Shapes: H_prev [B,D], E_t [B,D_in]; D even
 X = W_x(H_prev)
 Y = W_y(E_t)
 
@@ -110,7 +110,7 @@ dphi = wheel[t % len(wheel)] * (2π/24)
 Hrot = rotate_pairs(H_prev, dphi)
 
 H_t = GELU(LayerNorm(z + α * Hrot))
-
+```
 
 
 ## 7. Mermaid Overview
@@ -147,7 +147,7 @@ graph TD;
 ---
 
 ## 9. Reference Config (current defaults)
-
+```yaml
 helical_cell:
   dim: 128
   phase_wheel: [5, 7, 11, 13]   # × (2π/24)
@@ -156,7 +156,7 @@ helical_cell:
   activation: gelu
   coherence_lambda: 0.05        # set 0 or use --no_coh
   eps: 1e-6
-
+```
 
 ---
 

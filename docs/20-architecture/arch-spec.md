@@ -98,24 +98,23 @@ Enabled by default, disabled with `--no_coh`.
 ---
 
 ## 6. Pseudocode
+
 ### Shapes: H_prev [B, D], E_t [B, D_in]; D even
 
 ```python
-
 X = W_x(H_prev)
 Y = W_y(E_t)
 
 b = 0.5 * (Y - X)
-a = torch.exp(0.5 * (torch.log(torch.abs(X)+eps) + torch.log(torch.abs(Y)+eps)))
+a = torch.exp(0.5 * (torch.log(torch.abs(X) + eps) + torch.log(torch.abs(Y) + eps)))
 c = 0.5 * (Y + X)
 
-z = GELU(W_mix(torch.cat([b, a, c], dim=-1)))
+z = GELU(W_mix(torch.cat([a, b, c], dim=-1)))
 
-dphi = wheel[t % len(wheel)] * (2*math.pi/24)
+dphi = wheel[t % len(wheel)] * (2 * math.pi / 24)
 Hrot = rotate_pairs(H_prev, dphi)
 
-H_t = GELU(LayerNorm(z + 0.1 * Hrot))
-```
+H_t = GELU(LayerNorm(z + Hrot))
 
 ## 7. Mermaid Overview
 Below is a high-level flow diagram rendered using Mermaid:

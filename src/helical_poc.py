@@ -249,9 +249,11 @@ def main():
         csv_path = os.getenv("RUN_CSV", "results_copy.csv")
         new = not os.path.exists(csv_path)
         with open(csv_path, "a", newline="") as f:
-            w = csv.writer(f)
-            if new:
-                w.writerow(["model","seq_len","epoch","train_loss","train_acc","val_loss","val_acc"])
-            w.writerow(row)
+        w = csv.writer(f)
+        if new:
+            w.writerow(["model","seq_len","epoch","train_loss","train_acc","val_loss","val_acc"])
+        w.writerow(row)
+    print(f"[CSV LOGGED] wrote to {csv_path}")
+    
 if __name__ == "__main__":
     main()

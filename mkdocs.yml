@@ -7,14 +7,26 @@ theme:
     - content.code.copy
 nav:
   - Home: index.md
-  - Overview: 00-overview/README.md
+  - Overview:
+      - Overview (README): 00-overview/README.md
   - Math:
       - Triangle Kernel: 10-math/math-spec.md
+      # add more math pages here as you create them
   - Architecture:
       - Helical Cell: 20-architecture/arch-spec.md
+      # add modules/dataflow/interfaces equivalents if you add them later
   - Experiments:
       - Index: 40-experiments/index.md
       - Baseline (2025-08-24): 40-experiments/experiment-2025-08-24-baseline.md
+  - Compliance & IP:
+      - Patent Disclosure (Draft): compliance/patent-disclosure.md
+      # - IP Novelty Log: compliance/ip-novelty-log.md
+      # - Patent Disclosure Template: compliance/patent-disclosure-template.md
+  - Reference:
+      # Uncomment if these files exist:
+      # - Glossary: glossary.md
+      # - References: references.md
+      # - Risk & Ethics: risk-ethics.md
 markdown_extensions:
   - admonition
   - pymdownx.highlight
